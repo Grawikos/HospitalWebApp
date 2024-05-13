@@ -10,7 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
-import pl.dmcs.springbootjsp_iwa.security.services.UserDetailsServiceImpl;
+import pl.dmcs.hello.security.services.UserDetailsServiceImpl;
 
 import java.io.IOException;
 

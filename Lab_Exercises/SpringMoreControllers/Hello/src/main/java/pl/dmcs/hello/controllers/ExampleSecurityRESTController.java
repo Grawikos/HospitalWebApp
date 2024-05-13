@@ -14,13 +14,15 @@ public class ExampleSecurityRESTController {
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public String userAccess() {
+        System.out.println("user Accesed");
         return ">>> User Contents!";
     }
 
     @GetMapping("/admin")
     @PreAuthorize("hasRole('ADMIN')")
     public String adminAccess() {
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    return ">>> Admin Contents";
+        System.out.println("admin Accesed");
+        return ">>> Admin Contents";
     }
 
 }
