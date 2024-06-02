@@ -1,19 +1,24 @@
 import { Injectable } from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, tap} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
+import {Visit} from "../Visit";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private userUrl = 'http://localhost:8080/exampleSecurity/user';
-  private adminUrl = 'http://localhost:8080/exampleSecurity/admin';
+  private userUrl = 'http://localhost:8080/user';
+  private adminUrl = 'http://localhost:8080/admin';
+
 
   constructor(private http: HttpClient) { }
 
-  getUserPage(): Observable<string> {
-    return this.http.get(this.userUrl, { responseType: 'text' });
+  getUserPage(): Observable<Visit[]> {
+    return this.http.get<Visit[]>(this.userUrl)
+      .pipe(
+        tap(_ => console.log('fetched visits'))
+      );
   }
 
   getAdminPage(): Observable<string> {
@@ -26,4 +31,5 @@ export class UserService {
   })
   return abc;
   }
+
 }

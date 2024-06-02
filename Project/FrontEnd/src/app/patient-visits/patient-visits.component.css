@@ -5,3 +5,19 @@
 .column {
   flex: 50%;
 }
+
+.error {
+  display: block;
+  margin-top: 30px;
+  font-size: 30px;
+}
+
+.button-container {
+  display: block;
+  margin-top: 10px; /* Adds space between the text and buttons */
+}
+
+.button-container button {
+  margin-right: 10px; /* Adds space between the buttons */
+}
+

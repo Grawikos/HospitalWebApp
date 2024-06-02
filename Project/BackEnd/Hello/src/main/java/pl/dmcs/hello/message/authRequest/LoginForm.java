@@ -1,4 +1,4 @@
-package pl.dmcs.hello.message.request;
+package pl.dmcs.hello.message.authRequest;
 
 
 import jakarta.validation.constraints.NotBlank;

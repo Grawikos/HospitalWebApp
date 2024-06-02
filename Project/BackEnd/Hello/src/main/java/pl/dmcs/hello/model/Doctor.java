@@ -22,9 +22,40 @@ public class Doctor extends User{
     @OneToMany(fetch = FetchType.EAGER)
     private List<Patient> patients;
 
+    public boolean isEmpty(){
+        return (this.username.isEmpty() || this.password.isEmpty());
+    }
+
     public Doctor() {
     }
 
+    public Doctor(String username, String password) {
+        super();
+        this.setUsername(username);
+        this.setPassword(password);
+    }
 
+    public String getSpeciality() {
+        return speciality;
+    }
 
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
+    }
+
+    public List<Visit> getAppointmentList() {
+        return appointmentList;
+    }
+
+    public void setAppointmentList(List<Visit> appointmentList) {
+        this.appointmentList = appointmentList;
+    }
+
+    public List<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(List<Patient> patients) {
+        this.patients = patients;
+    }
 }

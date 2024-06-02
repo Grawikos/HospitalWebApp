@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="users")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
 
     @Id
@@ -30,6 +30,9 @@ public class User {
     protected String name;
     protected String surname;
 
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles = new HashSet<>();
 

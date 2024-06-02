@@ -21,7 +21,11 @@
   </div>
   <div class="column">
     <h2>List of doctors </h2>
-    Dr 1 <br> Dr 2 <br> Dr 3
+    <ul *ngFor="let doctor of doctors">
+      dr {{doctor.name}} {{doctor.surname}}
+      <br>
+      Speciality: {{doctor.speciality}}
+    </ul>
 
   </div>
 </div>

@@ -1,16 +1,17 @@
 package pl.dmcs.hello.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import org.hibernate.annotations.NaturalId;
-import pl.dmcs.hello.repository.PatientRepository;
+
+import java.time.LocalDateTime;
 
 @Entity
 public class Visit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
 
     @JsonIgnoreProperties(value = "visitList")
     @ManyToOne(fetch = FetchType.EAGER)
@@ -18,6 +19,17 @@ public class Visit {
     @JsonIgnoreProperties(value ={"appointmentList", "patients"})
     @ManyToOne(fetch = FetchType.EAGER)
     private Doctor doctor;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime appointmentDate;
+
+    public LocalDateTime getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    public void setAppointmentDate(LocalDateTime dateTime) {
+        this.appointmentDate = dateTime;
+    }
 
     public Patient getPatient() {
         return patient;

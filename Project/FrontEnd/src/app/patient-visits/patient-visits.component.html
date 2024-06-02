@@ -1,11 +1,13 @@
-<div class="row">
+<div class="row" *ngIf="isLoggin else redirect">
   <div class="column">
     <h2>
       Upcomming Visits
     </h2>
-    V1
-    <br>
-    V2
+    <div *ngFor="let visit of visits">
+      dr {{visit.doctor.name}} {{visit.doctor.surname}}
+      <br>
+      Date: {{visit.appointmentDate}} Day: {{visit.day}}
+    </div>
   </div>
   <div class="column">
     <h2>Previous Visits</h2>
@@ -13,3 +15,14 @@
 
   </div>
 </div>
+
+<ng-template #redirect>
+  <div class="error">
+    You don't have access to this page
+    <br>
+    <div class="button-container">
+      <button type="button" (click)="redirectHome()">Home</button>
+      <button type="button" (click)="redirectLogin()">Login</button>
+    </div>
+  </div>
+</ng-template>

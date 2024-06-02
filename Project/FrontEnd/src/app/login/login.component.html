@@ -1,6 +1,8 @@
 <div style="float: left; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); background-color: yellow;">
 <div *ngIf="isLoggedIn; else loggedOut">
   Logged in as {{roles}}.
+  <br>
+  <button type="button" (click)="signOut()">Logout</button>
 </div>
 
 <ng-template #loggedOut>
