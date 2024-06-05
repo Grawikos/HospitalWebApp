@@ -2,3 +2,44 @@
   color: crimson;
   font-size: large;
 }
+
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 50%;
+}
+
+.float{
+  float:left;
+}
+
+.myTable{
+  width: 80%;
+}
+
+.tab{
+  padding-right: 20px;
+}
+
+.mat-column-username {
+  width: 30%;
+}
+
+.mat-column-name{
+}
+
+.mat-column-surname{
+}
+
+.mat-column-delete{
+  width: 20%;
+  border-left: 1px solid black;
+}
+
+
+
+
+
+

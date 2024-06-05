@@ -25,10 +25,12 @@ public class User {
 
     @NotBlank
     @Size(min=6, max = 100)
+    @JsonIgnore
     protected String password;
 
     protected String name;
     protected String surname;
+    protected boolean deleted = false;
 
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -90,5 +92,13 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

@@ -6,9 +6,10 @@ import pl.dmcs.hello.model.Doctor;
 import pl.dmcs.hello.model.Role;
 import pl.dmcs.hello.model.RoleName;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface DoctorRepository extends JpaRepository<Doctor, Long> {
-//    Optional<Doctor> findById(Long id);
+    List<Doctor> findAllByDeleted(boolean del);
 }

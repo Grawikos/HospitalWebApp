@@ -1,0 +1,29 @@
+<form (ngSubmit)="update()">
+  <div class="form-group">
+    <label for="FirstName">First Name:</label>
+    <input [(ngModel)]="name" id="FirstName" [ngModelOptions]="{standalone: true}">
+  </div>
+  <div class="form-group">
+    <label for="LastName">Last Name:</label>
+    <input [(ngModel)]="surname" id="LastName" [ngModelOptions]="{standalone: true}">
+  </div>
+  <div>
+    Current family doctor: <br>
+    Dr {{familyDoctor?.name}} {{familyDoctor?.surname}}<br>
+    {{familyDoctor?.speciality}}
+  </div>
+  <mat-form-field>
+    <mat-label>Choose Family Doctor</mat-label>
+    <mat-select [(value)]="chooseFamilyDoctor" required>
+      <mat-option *ngFor="let doctor of doctors" [value] = "doctor">
+        Dr {{doctor.name}} {{doctor.surname}} <br> {{doctor.speciality}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+  <button type="submit" class="btn btn-primary">Confirm</button>
+</form>
+
+<div *ngIf="updated" class="updated">Profile updated successfully</div>
+

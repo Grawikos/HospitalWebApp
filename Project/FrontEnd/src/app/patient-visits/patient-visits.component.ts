@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, numberAttribute, OnInit} from '@angular/core';
 import {UserService} from "../services/user.service";
 import {Visit} from "../Visit";
-import {NgForOf, NgIf} from "@angular/common";
+import {DatePipe, NgForOf, NgIf} from "@angular/common";
 import {Router} from "@angular/router";
 
 
@@ -10,13 +10,16 @@ import {Router} from "@angular/router";
   standalone: true,
   imports: [
     NgForOf,
-    NgIf
+    NgIf,
+    DatePipe
   ],
   templateUrl: './patient-visits.component.html',
   styleUrl: './patient-visits.component.css'
 })
 export class PatientVisitsComponent implements OnInit {
-  visits?: Visit[];
+  visits: Visit[] = [];
+  prevVisits: Visit[] = [];
+  upcomingVisits: Visit[] = [];
   errorMessage?: string;
   isLoggin?: boolean;
 
@@ -26,17 +29,24 @@ export class PatientVisitsComponent implements OnInit {
 
   ngOnInit() {
     this.userService.getUserPage().subscribe({
-      next: (data) => {
+      next: (data: Visit[]) => {
         this.visits = data;
-      }
-      ,
+        this.shuffleVisits();
+      },
       error: (error) => {
         console.log('was error');
         this.isLoggin = false;
-        // this.errorMessage = `${error.status}: ${JSON.parse(error.error).message}`;
+        this.errorMessage = `${error.status}: ${JSON.parse(error.error).message}`;
       }
     });
   }
+
+  shuffleVisits(){
+    const now = new Date();
+    this.upcomingVisits = this.visits.filter(visit => new Date(visit.appointmentDate) > now);
+    this.prevVisits = this.visits.filter(visit => new Date(visit.appointmentDate) <= now);
+  }
+
 
 
   redirectHome() {

@@ -1,14 +1,3 @@
-<nav>
-  <a [routerLink]="['/login']">Login</a>
-  <br>
-  <a [routerLink]="['/signup']">Sign Up</a>
-  <br>
-  <a [routerLink]="['/visits']">Your Visits</a>
-  <br>
-  <a [routerLink]="['/appointments']">Appointments</a>
-  <br>
-
-</nav>
 <div class="row">
   <div class="column">
     <h2>
@@ -22,9 +11,11 @@
   <div class="column">
     <h2>List of doctors </h2>
     <ul *ngFor="let doctor of doctors">
-      dr {{doctor.name}} {{doctor.surname}}
-      <br>
-      Speciality: {{doctor.speciality}}
+      <div *ngIf="doctor.name && doctor.surname">
+        dr {{doctor.name}} {{doctor.surname}}
+        <br>
+        Speciality: {{doctor.speciality}}
+      </div>
     </ul>
 
   </div>

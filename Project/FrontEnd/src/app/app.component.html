@@ -1,9 +1,34 @@
-<h1 class = "clinic">
-  Clinic
-</h1>
-<nav>
-  <a [routerLink]="['/home']">Home Page</a>
-</nav>
+<mat-toolbar class="mat-accent">
+  <mat-toolbar-row>
+    <h1 class="mat-h1">Clinic</h1>
+  </mat-toolbar-row>
+
+  <mat-toolbar-row>
+    <span><nav>
+  <a class="nav1" mat-flat-button color="primary" [routerLink]="['/home']">Home Page</a>
+
+  <a class="nav1" mat-flat-button color="primary" *ngIf="authority === 'user' else logout" [routerLink]="['/login']">Login</a>
+  <ng-template #logout>
+    <a class="nav1" mat-flat-button color="primary" [routerLink]="['/login']">Logout</a>
+  </ng-template>
+
+  <a class="nav1" mat-flat-button color="primary" [routerLink]="['/signup']">Sign Up</a>
+
+  <a class="nav1" mat-flat-button color="primary" *ngIf="authority === 'patient'" [routerLink]="['/visits']">Your Visits</a>
+  <a class="nav1" mat-flat-button color="primary" *ngIf="authority === 'patient'" [routerLink]="['/profile/patient']">Profile</a>
+  <a class="nav1" mat-flat-button color="primary" *ngIf="authority === 'doctor'" [routerLink]="['/appointments']">Appointments</a>
+  <a class="nav1" mat-flat-button color="primary" *ngIf="authority === 'doctor'" [routerLink]="['/profile/doctor']">Profile</a>
+  <a class="nav1" mat-flat-button color="primary" *ngIf="authority === 'admin'" [routerLink]="['/admin']">Admin</a>
+
+
+</nav></span>
+  </mat-toolbar-row>
+</mat-toolbar>
+<br>
+<div class="mat-h2">
+  Browsing as: {{authority}}
+</div>
+<br>
 <div id="content">
   <div class="container">
     <router-outlet></router-outlet>

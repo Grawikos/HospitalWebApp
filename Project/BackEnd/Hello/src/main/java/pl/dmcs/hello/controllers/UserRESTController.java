@@ -48,6 +48,7 @@ public class UserRESTController {
         return visitsRepository.findByPatientId(userId);
     }
 
+
     @DeleteMapping("/{id}")
     public ResponseEntity<?> removeVisit(@PathVariable("id") long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -61,6 +62,15 @@ public class UserRESTController {
         }
         visitsRepository.deleteById(id);
         return new ResponseEntity<Visit>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<Patient> getPatient() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+        Long patientId = userPrinciple.getId();
+        Optional<Patient> patientOpt = patientRepository.findById(patientId);
+        return patientOpt.map(patient -> new ResponseEntity<>(patient, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @PatchMapping("/profile")
@@ -78,13 +88,14 @@ public class UserRESTController {
     }
 
     private Patient partialUpdate(Patient patient, Patient updates) {
+        System.out.println(updates);
         if (!updates.getName().isEmpty()) {
             patient.setName(updates.getName());
         }
         if (!updates.getSurname().isEmpty()) {
             patient.setSurname(updates.getSurname());
         }
-        if (!updates.getFamilyDoctor().isEmpty()) {
+        if (updates.getFamilyDoctor() != null) {
             patient.setFamilyDoctor(updates.getFamilyDoctor());
         }
 

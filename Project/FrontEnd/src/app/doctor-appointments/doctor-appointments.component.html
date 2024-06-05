@@ -1,17 +1,54 @@
+<div  *ngIf="isLogin else redirect">
 <div class="row">
   <div class="column">
-    <h2>
-      Upcoming Appointments
-    </h2>
-    V1
-    <br>
-    V2
-    <br>
-    <button>Add</button>
+    <h2>Upcoming Visits</h2>
+    <div *ngIf="upcomingVisits.length > 0; else noUpcomingVisits">
+      <ul>
+        <li *ngFor="let visit of upcomingVisits">
+          Patient: {{visit.patient.name}} {{visit.patient.surname}}
+          <br>
+          Day: {{ visit.appointmentDate | date: 'fullDate'}} <br>
+          Time: {{ visit.appointmentDate | date: 'shortTime'}}  <button (click)="showPopup(visit.id)">Cancel</button>
+          <div *ngIf="confirmPopup === visit.id">
+            <br>
+            <label>Are you sure?</label>
+            <button (click)="cancelVisit(visit.id)">Yes</button> <button (click)="hidePopup()">No</button>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <ng-template #noUpcomingVisits>
+      <p>No upcoming visits</p>
+    </ng-template>
   </div>
   <div class="column">
-    <h2>Previous Appointments</h2>
-    V 1 <br> V 2 <br> V 3
-
+    <h2>Previous Visits</h2>
+    <div *ngIf="prevVisits.length > 0; else noPreviousVisits">
+      <ul>
+        <li *ngFor="let visit of prevVisits">
+          Patient: {{visit.patient.name}} {{visit.patient.surname}}
+          <br>
+          Day: {{ visit.appointmentDate | date: 'fullDate'}} <br>
+          Time: {{ visit.appointmentDate | date: 'shortTime'}}
+        </li>
+      </ul>
+    </div>
+    <ng-template #noPreviousVisits>
+      <p>No previous visits</p>
+    </ng-template>
   </div>
 </div>
+<br>
+<button mat-flat-button color="primary"  (click)="redirectAddAppointment()">Add new appointment</button>
+</div>
+<ng-template #redirect>
+  <div class="error">
+    You don't have access to this page
+    <br>
+    <div class="button-container">
+      <button type="button" (click)="redirectHome()">Home</button>
+      <button type="button" (click)="redirectLogin()">Login</button>
+    </div>
+  </div>
+</ng-template>
+

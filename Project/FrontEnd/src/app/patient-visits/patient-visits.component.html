@@ -1,18 +1,35 @@
 <div class="row" *ngIf="isLoggin else redirect">
   <div class="column">
-    <h2>
-      Upcomming Visits
-    </h2>
-    <div *ngFor="let visit of visits">
-      dr {{visit.doctor.name}} {{visit.doctor.surname}}
-      <br>
-      Date: {{visit.appointmentDate}} Day: {{visit.day}}
+    <h2>Upcoming Visits</h2>
+    <div *ngIf="upcomingVisits.length > 0; else noUpcomingVisits">
+      <ul>
+        <li *ngFor="let visit of upcomingVisits">
+          dr {{visit.doctor.name}} {{visit.doctor.surname}}
+          <br>
+          Day: {{ visit.appointmentDate | date: 'fullDate'}} <br>
+          Time: {{ visit.appointmentDate | date: 'shortTime'}}
+        </li>
+      </ul>
     </div>
+    <ng-template #noUpcomingVisits>
+      <p>No upcoming visits</p>
+    </ng-template>
   </div>
   <div class="column">
     <h2>Previous Visits</h2>
-    V 1 <br> V 2 <br> V 3
-
+    <div *ngIf="prevVisits.length > 0; else noPreviousVisits">
+      <ul>
+        <li *ngFor="let visit of prevVisits">
+          dr {{visit.doctor.name}} {{visit.doctor.surname}}
+          <br>
+          Day: {{ visit.appointmentDate | date: 'fullDate'}} <br>
+          Time: {{ visit.appointmentDate | date: 'shortTime'}}
+        </li>
+      </ul>
+    </div>
+    <ng-template #noPreviousVisits>
+      <p>No previous visits</p>
+    </ng-template>
   </div>
 </div>
 

@@ -16,6 +16,8 @@ export class AuthService {
 
   private loginUrl = 'http://localhost:8080/auth/signin';
   private signupUrl = 'http://localhost:8080/auth/signup';
+  private doctorUrl = 'http://localhost:8080/auth/admin/register-doctor';
+  private adminUrl = 'http://localhost:8080/auth/admin/register-admin';
 
   constructor(private http: HttpClient) { }
 
@@ -25,5 +27,12 @@ export class AuthService {
 
   signUp(info: SignupInfo): Observable<string> {
     return this.http.post<string>(this.signupUrl, info, httpOptions);
+  }
+
+  createDoctor(info: SignupInfo): Observable<string> {
+    return this.http.post<string>(this.doctorUrl, info, httpOptions);
+  }
+  createAdmin(info: SignupInfo): Observable<string> {
+    return this.http.post<string>(this.adminUrl, info, httpOptions);
   }
 }

@@ -50,19 +50,12 @@ public class DoctorRESTController {
 
     @PostMapping("/visits")
     public ResponseEntity<?> createVisit(@Valid @RequestBody VisitCreationRequest request) {
-        // Get the authenticated user's details
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
         Long doctorId = userPrinciple.getId();
 
-        // Ensure the authenticated user is the doctor creating the visit
-        if (!doctorId.equals(request.getDoctorId())) {
-            return new ResponseEntity<>(new ResponseMessage("Unauthorized to create visit for another doctor"), HttpStatus.UNAUTHORIZED);
-        }
-
-        // Retrieve patient and doctor entities
         Optional<Patient> patientOpt = patientRepository.findById(request.getPatientId());
-        Optional<Doctor> doctorOpt = doctorRepository.findById(request.getDoctorId());
+        Optional<Doctor> doctorOpt = doctorRepository.findById(doctorId);
 
         if (patientOpt.isEmpty() || doctorOpt.isEmpty()) {
             return new ResponseEntity<>(new ResponseMessage("Patient or Doctor not found"), HttpStatus.NOT_FOUND);
@@ -78,4 +71,64 @@ public class DoctorRESTController {
         return new ResponseEntity<>(new ResponseMessage("Visit created successfully"), HttpStatus.OK);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> removeVisit(@PathVariable("id") long id) {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+//        Long doctorId = userPrinciple.getId();
+        System.out.println(id);
+        if (!visitsRepository.existsById(id)){
+            return new ResponseEntity<Visit>(HttpStatus.NOT_FOUND);
+        }
+//        if (!doctorId.equals(id)) {
+//            return new ResponseEntity<>(new ResponseMessage("Unauthorized to create visit for another patient"), HttpStatus.UNAUTHORIZED);
+//        }
+        visitsRepository.deleteById(id);
+        return new ResponseEntity<Visit>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/patients")
+    public List<Patient> getAllPatients() {
+        return patientRepository.findAllByDeleted(false);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<Doctor> getDoctor() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+        Long doctorId = userPrinciple.getId();
+        Optional<Doctor> doctorOpt = doctorRepository.findById(doctorId);
+        return doctorOpt.map(doctor -> new ResponseEntity<>(doctor, HttpStatus.OK)).orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+
+    @PatchMapping("/profile")
+    public  ResponseEntity<Doctor> updateDoctor(@RequestBody Doctor updates){
+        System.out.println("patch" + updates);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserPrinciple userPrinciple = (UserPrinciple) authentication.getPrincipal();
+        Long userId = userPrinciple.getId();
+
+        Optional<Doctor> doctorOpt = doctorRepository.findById(userId);
+        if(doctorOpt.isEmpty()){
+            return new ResponseEntity<Doctor>(HttpStatus.NOT_FOUND);
+        }
+        Doctor doctor = partialUpdate(doctorOpt.get(),updates);
+        return new ResponseEntity<Doctor>(doctor, HttpStatus.OK);
+    }
+
+    private Doctor partialUpdate(Doctor doctor, Doctor updates) {
+        if (!updates.getName().isEmpty()) {
+            doctor.setName(updates.getName());
+        }
+        if (!updates.getSurname().isEmpty()) {
+            doctor.setSurname(updates.getSurname());
+        }
+        if (!updates.getSpeciality().isEmpty()) {
+            doctor.setSpeciality(updates.getSpeciality());
+        }
+
+        doctorRepository.save(doctor);
+        return doctor;
+    }
 }

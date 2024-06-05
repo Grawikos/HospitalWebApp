@@ -2,14 +2,18 @@ import {Component, OnInit} from '@angular/core';
 import {RouterLink} from "@angular/router";
 import {HomeService} from "../services/home.service";
 import {Doctor} from "../Doctor";
-import {NgForOf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
+import {MatToolbar, MatToolbarRow} from "@angular/material/toolbar";
 
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [
     RouterLink,
-    NgForOf
+    NgForOf,
+    NgIf,
+    MatToolbar,
+    MatToolbarRow
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

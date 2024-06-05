@@ -2,9 +2,9 @@ select * from users
 
 select * from user_roles
 
-select user_id, patients.username, doctors.username from user_roles
-full outer join patients on user_roles.user_id = patients.id
-full outer join doctors on user_roles.user_id = doctors.id
+select users.id, users.username, role.name as role from users
+join user_roles on user_roles.user_id = users.id
+join role on user_roles.role_id = role.id
 
 select * from role
 
@@ -14,12 +14,6 @@ select * from patients
 
 select * from doctors
 
-insert into patients (id, username)
-values (2, 'qwerty')
-
-
-insert into visit (doctor_id, patient_id)
-values (1, 2)
 
 update user_roles
 set role_id = 3
@@ -27,6 +21,10 @@ where user_id = 2
 
 update users
 set name = 'Anna', surname = 'Kowalska'
+where id = 3
+
+update doctors
+set speciality = 'Surgeon'
 where id = 3
 
 truncate patients cascade
