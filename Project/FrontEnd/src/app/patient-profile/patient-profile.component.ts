@@ -9,6 +9,9 @@ import {MatOption} from "@angular/material/autocomplete";
 import {MatSelect} from "@angular/material/select";
 import {NgForOf, NgIf} from "@angular/common";
 import {HomeService} from "../services/home.service";
+import {MatInput} from "@angular/material/input";
+import {MatButton} from "@angular/material/button";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-patient-profile',
@@ -20,19 +23,23 @@ import {HomeService} from "../services/home.service";
     MatOption,
     MatSelect,
     NgForOf,
-    NgIf
+    NgIf,
+    MatInput,
+    MatButton
   ],
   templateUrl: './patient-profile.component.html',
   styleUrl: './patient-profile.component.css'
 })
 export class PatientProfileComponent implements OnInit{
   doctors?: Doctor[];
+  rdyDoctors: Doctor[] = [];
   chooseFamilyDoctor?: Doctor;
   name?: string;
   surname?: string;
   familyDoctor?: Doctor;
   updated: boolean = false;
-  constructor(private homeService: HomeService, private profileService: ProfileService) { }
+  isLogin: boolean = true;
+  constructor(private homeService: HomeService, private profileService: ProfileService, private router: Router) { }
 
   ngOnInit() {
     this.getDoctors();
@@ -45,14 +52,20 @@ export class PatientProfileComponent implements OnInit{
       },
       error: (err) =>{
         console.log("err" + err);
+        this.isLogin = false;
       }
     });
   }
 
   getDoctors(){
     this.homeService.getDoctors().subscribe({
-      next: (data) => {
+      next: (data : Doctor[]) => {
         this.doctors = data;
+        for (const doctor of this.doctors) {
+          if (doctor.name && doctor.surname && doctor.speciality){
+            this.rdyDoctors.push(doctor);
+          }
+        }
       }
       ,
       error: (error) => {
@@ -71,5 +84,13 @@ export class PatientProfileComponent implements OnInit{
       },
       error: (err) => console.error('Error updating doctor', err)
     });
+  }
+
+  redirectHome() {
+    this.router.navigate(['/home']);
+  }
+
+  redirectLogin() {
+    this.router.navigate(['/login']);
   }
 }

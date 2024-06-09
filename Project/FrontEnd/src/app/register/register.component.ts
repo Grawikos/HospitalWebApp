@@ -3,6 +3,9 @@ import {AuthService} from '../auth/auth.service';
 import {SignupInfo} from '../auth/signup-info';
 import {NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-register',
@@ -10,7 +13,11 @@ import {FormsModule} from "@angular/forms";
   imports: [
     NgForOf,
     NgIf,
-    FormsModule
+    FormsModule,
+    MatFormField,
+    MatInput,
+    MatButton,
+    MatLabel
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']

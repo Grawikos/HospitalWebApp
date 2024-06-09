@@ -1,23 +1,29 @@
-<div class="row">
-  <div class="column">
-    <h2>
-      Info
-    </h2>
-    Address: Piotrkowska 10
-    <br>
-    Telephone: 123123123
-    ...
-  </div>
-  <div class="column">
-    <h2>List of doctors </h2>
-    <ul *ngFor="let doctor of doctors">
-      <div *ngIf="doctor.name && doctor.surname">
-        dr {{doctor.name}} {{doctor.surname}}
-        <br>
-        Speciality: {{doctor.speciality}}
+<div class="container">
+  <div class="row">
+    <div class="column">
+      <h2>Information</h2>
+      Address: Piotrkowska 10
+      <br>
+      Telephone: 123123123
+      <br>
+      Working hours: 7:00 - 21:00
+    </div>
+    <div class="column">
+      <div class="search-sort-container">
+        <input type="text" placeholder="Search doctors..." [(ngModel)]="searchTerm" class="search-input" />
+        <select [(ngModel)]="sortOption" class="sort-select">
+          <option value="name">Sort by Name</option>
+          <option value="speciality">Sort by Speciality</option>
+        </select>
       </div>
-    </ul>
-
+      <h2>List of doctors</h2>
+        <mat-list *ngFor="let doctor of filteredDoctors()">
+          <mat-list-item *ngIf="doctor.name && doctor.surname">
+            dr {{doctor.name}} {{doctor.surname}}
+            <br>
+            Speciality: {{doctor.speciality}}
+          </mat-list-item>
+        </mat-list>
+    </div>
   </div>
 </div>
-

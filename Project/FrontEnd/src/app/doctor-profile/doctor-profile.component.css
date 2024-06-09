@@ -1,0 +1,16 @@
+.updated{
+  display: block;
+  font-size: small;
+  color: lawngreen;
+  font-style: italic;
+}
+
+
+.btn{
+  background-color: lightskyblue;
+}
+
+.form{
+  padding-right: 10px;
+  padding-left: 20px;
+}

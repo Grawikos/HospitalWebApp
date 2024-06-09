@@ -5,3 +5,16 @@
 .column {
   flex: 50%;
 }
+
+.btn{
+  background-color: lightskyblue;
+  color: #fff;
+
+}
+
+.updated{
+  display: block;
+  font-size: small;
+  color: lawngreen;
+  font-style: italic;
+}

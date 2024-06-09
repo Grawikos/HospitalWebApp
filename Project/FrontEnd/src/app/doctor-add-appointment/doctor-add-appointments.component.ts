@@ -21,6 +21,7 @@ import {MatInput, MatInputModule} from "@angular/material/input";
 import {MatNativeDateModule, provideNativeDateAdapter} from "@angular/material/core";
 import {MatIconModule} from "@angular/material/icon";
 import {NgxMatTimepickerComponent, NgxMatTimepickerModule} from "ngx-mat-timepicker";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-doctor-appointments',
@@ -39,7 +40,8 @@ import {NgxMatTimepickerComponent, NgxMatTimepickerModule} from "ngx-mat-timepic
     MatSelect,
     MatOption,
     NgxMatTimepickerModule,
-    NgxMatTimepickerComponent
+    NgxMatTimepickerComponent,
+    MatButton
   ],
   templateUrl: './doctor-add-appointments.component.html',
   styleUrl: './doctor-add-appointments.component.css',
@@ -48,14 +50,14 @@ export class DoctorAddAppointmentsComponent implements  OnInit{
   patients?: Patient[];
   choosePatient?: Patient;
   errorMessage?: string;
-  isLogin?: boolean;
+  isLogin: boolean = true;
   newDate?: Date;
   newTime ?: string;
   minDate : Date;
   maxDate : Date;
+  added: boolean = false;
 
   constructor(private patientService: UserService, private doctorService: DoctorService, private router: Router) {
-    this.isLogin = true;
     const currentYear = new Date().getFullYear();
     this.minDate = new Date(currentYear, 0, 1);
     this.maxDate = new Date(currentYear + 9, 11, 31);
@@ -72,6 +74,7 @@ export class DoctorAddAppointmentsComponent implements  OnInit{
         console.log(data);
       },
       error: (err) => {
+        this.isLogin = false;
         console.log("error" + err);
     }
     });
@@ -79,9 +82,6 @@ export class DoctorAddAppointmentsComponent implements  OnInit{
 
 
   addAppointment(){
-
-
-
     let patientId: number = -1;
     if (this.choosePatient){
       if (this.choosePatient.id)
@@ -123,7 +123,8 @@ export class DoctorAddAppointmentsComponent implements  OnInit{
     let dateTime: string = this.newDate.getFullYear() + "-" + month + "-" + day + 'T' + hourS + ":" + minutesS + ":00";
     this.doctorService.addAppointment(new VisitForm(patientId, dateTime)).subscribe({
       next: (data: Visit) => {
-        console.log('added doctor')
+        console.log('added appointment')
+        this.added = true;
       },
       error: (error) => {
         console.log('was error');

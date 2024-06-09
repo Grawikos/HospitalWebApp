@@ -7,7 +7,12 @@
   display: flex;
 }
 
-.column {
+.column1 {
+  flex: 30%;
+  padding-left: 40px;
+}
+
+.column2{
   flex: 50%;
 }
 
@@ -38,8 +43,21 @@
   border-left: 1px solid black;
 }
 
+.buttons{
+  color: aliceblue;
+  margin-right: 10px;
+  background-color: cadetblue;
+}
 
+.form-group{
 
+}
 
+.updated{
+  display: block;
+  font-size: small;
+  color: lawngreen;
+  font-style: italic;
+}
 
 

@@ -25,7 +25,6 @@ public class User {
 
     @NotBlank
     @Size(min=6, max = 100)
-    @JsonIgnore
     protected String password;
 
     protected String name;

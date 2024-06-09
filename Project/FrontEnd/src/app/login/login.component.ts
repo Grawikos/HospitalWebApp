@@ -4,6 +4,9 @@ import {AuthService} from '../auth/auth.service';
 import {TokenStorageService} from '../auth/token-storage.service';
 import {NgForOf, NgIf} from "@angular/common";
 import {FormsModule} from "@angular/forms";
+import {MatAnchor, MatButton} from "@angular/material/button";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
 
 @Component({
   selector: 'app-login',
@@ -11,7 +14,12 @@ import {FormsModule} from "@angular/forms";
   imports: [
     NgForOf,
     NgIf,
-    FormsModule
+    FormsModule,
+    MatButton,
+    MatLabel,
+    MatFormField,
+    MatInput,
+    MatAnchor
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']

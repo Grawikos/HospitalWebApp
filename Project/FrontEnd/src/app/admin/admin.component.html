@@ -1,38 +1,45 @@
-<div class="row">
-  <div class="column">
+<div *ngIf="!access else logged">
+  You dont have access to this page
+</div>
+<ng-template #logged>
+<div class="row" >
+  <div class="column1">
     <div class="admin">
-      I am the administrator!
+      Administrator Panel
     </div>
     <div class="row col-sm-6" style="max-width:350px;">
+      <br>
       <form name="form" #f="ngForm" novalidate>
-        <div class="form-group">
-          <label for="username" id="username">Username</label>
-          <input type="text" class="form-control" name="username" [(ngModel)]="form.username" #username="ngModel"
-                 required />
+        <mat-form-field>
+          <mat-label for="username" id="username">Username</mat-label>
+          <input matInput type="text" class="form-control" name="username" [(ngModel)]="form.username" #username="ngModel"  required >
           <div *ngIf="f.submitted && username.invalid">
             <div *ngIf="['username.errors?.required']">Username is required</div>
           </div>
-        </div>
-        <div class="form-group">
-          <label for="password" id="password">Password</label>
-          <input type="password" class="form-control" name="password" [(ngModel)]="form.password" #password="ngModel"
-                 required minlength="6" />
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label for="password" id="password">Password</mat-label>
+          <input matInput type="password" class="form-control" name="password" [(ngModel)]="form.password" #password="ngModel"
+                 required minlength="6" >
           <div *ngIf="f.submitted && password.invalid">
             <div *ngIf="['password.errors?.required']">Password is required</div>
             <div *ngIf="['password.errors?.minlength']">Password must be at least 6 characters</div>
           </div>
-        </div>
-        <div class="form-group">
-          <button (click)="createDoctor()" type="button" class="btn btn-primary">Register Doctor</button>
-          <button (click)="createAdmin()" type="button" class="btn btn-primary">Create Admin</button>
+        </mat-form-field>
+        <div class="form-group" >
+          <button mat-button class="buttons" (click)="createDoctor()" type="button" >Create Doctor</button>
+          <button mat-button  class="buttons" (click)="createAdmin()" type="button" >Create Admin</button>
           <div *ngIf="f.submitted && isSignUpFailed" class="alert alert-warning">
             Signup failed!<br/>{{errorMessage}}
           </div>
+          <div *ngIf="added" class="updated">User added successfully</div>
+
         </div>
+
       </form>
     </div>
   </div>
-  <div class="column tab">
+  <div class="column2 tab">
     <h2>List</h2>
     <mat-button-toggle-group name="fontStyle" aria-label="Font Style">
       <mat-button-toggle (click)="display = doctors" value="bold">Doctors</mat-button-toggle>
@@ -71,6 +78,7 @@
   </div>
 </div>
 
+</ng-template>
 
 
 

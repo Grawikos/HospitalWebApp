@@ -38,13 +38,13 @@ public class HomeRESTController {
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/patients")
     public List<Patient> getPatients() {
-        return this.patientRepository.findAll();
+        return this.patientRepository.findAllByDeleted(false);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/users")
     public List<User> getUsers() {
-        return this.userRepository.findAll();
+        return this.userRepository.findAllByDeleted(false);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

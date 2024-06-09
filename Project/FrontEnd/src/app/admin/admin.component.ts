@@ -18,6 +18,9 @@ import {
   MatHeaderRow, MatHeaderRowDef, MatRow, MatRowDef,
   MatTable
 } from "@angular/material/table";
+import {MatFormField, MatLabel} from "@angular/material/form-field";
+import {MatInput} from "@angular/material/input";
+import {MatButton} from "@angular/material/button";
 
 @Component({
   selector: 'app-admin',
@@ -38,7 +41,11 @@ import {
     MatHeaderRow,
     MatRow,
     MatHeaderRowDef,
-    MatRowDef
+    MatRowDef,
+    MatFormField,
+    MatInput,
+    MatLabel,
+    MatButton
   ],
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.css']
@@ -51,11 +58,15 @@ export class AdminComponent implements OnInit {
   signupInfo?: SignupInfo;
   errorMessage?: string;
   isSignUpFailed = false;
-  deleteChoice?:number = -1;
+  added: boolean = false;
+  deleteChoice:number = -1;
   display: User[] = [];
   displayedColumns: string[] = ["username", "name", "surname", "delete"]
+  access: boolean = true;
 
-  constructor(private userService: UserService, private homeService: HomeService, private authService: AuthService) { }
+  constructor(private userService: UserService, private homeService: HomeService, private authService: AuthService) {
+    this.added = false;
+  }
 
   ngOnInit() {
     this.homeService.getPatients().subscribe({
@@ -63,6 +74,7 @@ export class AdminComponent implements OnInit {
         this.patients = data;
       },
       error: (error) => {
+        this.access = false;
         this.errorMessage = `${error.status}: ${JSON.parse(error.error).message}`;
       }
   });
@@ -71,6 +83,7 @@ export class AdminComponent implements OnInit {
         this.doctors = data;
       },
       error: (error) => {
+        this.access = false;
         this.errorMessage = `${error.status}: ${JSON.parse(error.error).message}`;
       }
     });
@@ -79,9 +92,12 @@ export class AdminComponent implements OnInit {
         this.users = data;
       },
       error: (error) => {
+        this.access = false;
         this.errorMessage = `${error.status}: ${JSON.parse(error.error).message}`;
       }
     });
+
+
   }
 
   createDoctor() {
@@ -102,6 +118,7 @@ export class AdminComponent implements OnInit {
         this.errorMessage = error.error.message;
       }
     });
+    this.added = true;
   }
 
   createAdmin() {
@@ -122,10 +139,16 @@ export class AdminComponent implements OnInit {
         this.errorMessage = error.error.message;
       }
     });
+    this.added = true;
   }
 
   deleteUser(){
-
+    this.homeService.deleteUser(this.deleteChoice).subscribe({
+      error: (error) => {
+        console.log(error);
+        this.errorMessage = error.error.message;
+      }
+    })
     this.deleteChoice = -1;
   }
 
