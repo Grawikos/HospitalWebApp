@@ -1,5 +1,2 @@
 IWA todo:
--confirm password
--fetch doctor appointments
--css
--admin page
+-make prettier UI
